@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <!-- The title comes from the backing bean -->
+    <title>#{departmentFormDialog.dialogTitle}</title>
+    <style type="text/css">
+        /* Makes the dialog background transparent, showing the modal overlay */
+        body { background-color: transparent !important; }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form id="departmentForm">
+        <p:panel header="#{departmentFormDialog.dialogTitle}">
+            <!-- To display validation errors from the save method -->
+            <p:messages id="dialogMessages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12">
+                    <p:outputLabel for="deptName" value="Department Name"/>
+                    <p:inputText id="deptName"
+                                 value="#{departmentFormDialog.model.name}"
+                                 required="true"
+                                 requiredMessage="Department name is required."/>
+                </div>
+
+                <div class="ui-g-12" style="margin-top: 10px;">
+                    <p:outputLabel for="deptLead" value="Department Lead"/>
+                    <p:inputText id="deptLead"
+                                 value="#{departmentFormDialog.model.department_lead}" />
+                </div>
+            </div>
+
+            <f:facet name="footer">
+                <div style="text-align: right;">
+                    <!-- The Save button calls the save method and updates the form for messages -->
+                    <p:commandButton value="Save" icon="ui-icon-check"
+                                     actionListener="#{departmentFormDialog.saveDepartment}"
+                                     update="@form"/>
+
+                    <!-- The Cancel button simply closes the dialog using JavaScript -->
+                    <p:commandButton value="Cancel" icon="ui-icon-close"
+                                     process="@this"
+                                     onclick="PrimeFaces.current().dialog().closeDynamic(); return false;"
+                                     style="margin-left: 5px;"/>
+                </div>
+            </f:facet>
+        </p:panel>
+    </h:form>
+</h:body>
+</html>
